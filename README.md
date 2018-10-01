@@ -1,4 +1,4 @@
-# controller
+# node-socket-controller
 
 starter code for node.js and socket.io project with mobile accelerometer and gyroscope sensor data
 
