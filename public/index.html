@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO</title>
+	
+  </head>
+  <body>
+	  <div id="output"></div>
+	  
+	  <script src="socket.io/socket.io.js"></script>
+      <script type="text/javascript">
+  		var socket = io();
+			
+  		socket.on('gyroscope', function(data){
+  			console.log(data)
+  		});
+		
+  		socket.on('accelerometer', function(data){
+  			console.log(data)
+  		});
+		
+	
+  		if (window.DeviceOrientationEvent) {
+  			window.addEventListener('deviceorientation', function(event){
+	  			console.log(event)
+				
+				// gamma is the left-to-right tilt in degrees
+		        console.log(event.gamma);
+		        // beta is the front-to-back tilt in degrees
+		        console.log(event.beta);
+		        // alpha is the compass direction the device is facing in degrees
+		        console.log(event.alpha);
+				
+	  			var data = {
+	  				lr: event.beta,
+	  				fb: event.gamma,
+	  				dir: event.alpha
+	  			}
+				
+				document.getElementById("output").innerHTML = data + "<br>"
+			
+	  			socket.emit('deviceOrientation', data)
+  			});
+  		} else {
+  			console.log("device orientation not supported")
+  		}
+		
+		
+		if (window.DeviceMotionEvent) {
+		    window.addEventListener('devicemotion', function(event) {   
+		        // Acceleration
+		        console.log(event.acceleration.x);
+		        console.log(event.acceleration.y);
+		        console.log(event.acceleration.z);
+    
+		        // Acceleration including gravity
+		        console.log(event.accelerationIncludingGravity.x);
+		        console.log(event.accelerationIncludingGravity.y);
+		        console.log(event.accelerationIncludingGravity.z);
+
+		        // Rotation rate
+		        console.log(event.rotationRate.alpha);
+		        console.log(event.rotationRate.beta);
+		        console.log(event.rotationRate.gamma);
+				
+	  			var data = {
+	  				x: event.acceleration.x,
+	  				y: event.acceleration.y,
+	  				z: event.acceleration.z
+	  			}
+				
+				document.getElementById("output").innerHTML += data + "<br>"
+				
+  				socket.emit('deviceMotion', data)
+				
+		    }, false);
+		} else {
+  			console.log("device motion not supported")
+			
+		}
+		
+		
+      </script>
+	 
+		
+  </body>
+</html>
