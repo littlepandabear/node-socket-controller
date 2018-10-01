@@ -4,6 +4,7 @@ starter code for node.js and socket.io project with mobile accelerometer and gyr
 
 # run project
 npm install
+<br>
 node index.js
 
 
